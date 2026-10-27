@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+</head>
+<body>
+    <h1>Admin Dashboard</h1>
+
+    <div class="admin-actions">
+        <a href="/add-course">Add Course</a>
+        <a href="/statistics">Statistics</a>
+        <a href="/logout" onclick="return confirm('Are you sure you want to logout?')">Logout</a>
+    </div>
+
+<section class="add-student">
+    <h2>Add Student</h2>
+
+    <form action="/add-student" method="POST">
+        <label for="school_id">School ID</label>
+        <input type="text" id="school_id" name="school_id" placeholder="Enter school ID" required>
+
+        <label for="fullname">Full Name</label>
+        <input type="text" id="fullname" name="fullname" placeholder="Enter full name" required>
+
+        <label for="course_id">Course</label>
+        <select id="course_id" name="course_id" required>
+            <option value="">Select Course</option>
+
+            <% courses.forEach(course => { %>
+                <option value="<%= course.course_id %>">
+                    <%= course.course_code %> - <%= course.course_name %>
+                </option>
+            <% }) %>
+        </select>
+
+        <label for="year_level">Year Level</label>
+        <select id="year_level" name="year_level" required>
+            <option value="">Select Year Level</option>
+            <option value="1">1st Year</option>
+            <option value="2">2nd Year</option>
+            <option value="3">3rd Year</option>
+            <option value="4">4th Year</option>
+        </select>
+
+        <button type="submit">Add Student</button>
+    </form>
+</section>
+
+<div class="student-list">
+    <h2>Recently visit</h2>
+        <% students.forEach(data => { %>
+            <p>
+                <%= data.school_id %> -
+                <%= data.fullname %> -
+                <%= data.year_level %>
+                <%
+                const dateAdded = new Date(data.date_added);
+                const formattedTime = dateAdded.toLocaleTimeString('en-US', {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: true
+                });
+                const formattedDate = dateAdded.toLocaleDateString('en-US', {
+                    month: 'short',
+                    day: 'numeric',
+                    year: 'numeric'
+                }).replace(',', '');
+                %>
+
+                <%= formattedTime + ', ' + formattedDate %>
+            </p>
+        <% }) %>
+</div>
+
+</body>
+</html>
