@@ -98,9 +98,7 @@ libtrack.post('/add-student', (req, res) => {
 
     const sql = `INSERT INTO students (school_id, fullname, course_id, year_level) VALUES (?, ?, ?, ?)`;
 
-    conn.query(
-        sql,
-        [school_id, fullname, course_id, year_level],
+    conn.query(sql,[school_id, fullname, course_id, year_level],
         (err) => {
             if (err) {
                 console.log(err);
